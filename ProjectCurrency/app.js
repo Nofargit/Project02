@@ -60,7 +60,7 @@ function findCurrency()
 
     if (  $( "#searchBtn" ).attr("href") === undefined )
     {
-        alert ("Your coin was not founded")
+        alert ("Your coin was not found")
         $("#searchInput").focus()
       
     }
@@ -76,7 +76,6 @@ function homePage()
     $("#chartContainer").hide()
     $("#aboutPage").hide()
     $("#searchArea").show()
-    //  selectedCoins = []
 
     let  url = 'https://api.coingecko.com/api/v3/coins/list';
     const cb = function( xhr )
@@ -194,13 +193,11 @@ function getInfoFromStorage( ID )
     {
         let findData = localStorage.key( ID )
         findData = localStorage.getItem(ID)
-        let foundedDataJson = JSON.parse(findData);
-        showMoreInfo( foundedDataJson , event )
+        let foundDataJson = JSON.parse(findData);
+        showMoreInfo( foundDataJson , event )
         return;
     }
 }
-
-
 
 function moreInfoData( relevaneData ,event )
 {
@@ -240,7 +237,6 @@ function showMoreInfo( relevaneData , moreInfo )
         saveToStorage( relevaneData )
 }
 
-
         //Saving to localStorage with currentTime
 function saveToStorage( relevaneData )
 {
@@ -260,10 +256,10 @@ function createDialog( contentCb )
 {
     const dialog = document.createElement('div');
     dialog.id = 'dialog'
-    dialog.style.width = '400px';
-    dialog.style.height = '500px';
+    dialog.style.width = '500px';
+    dialog.style.height = '530px';
     dialog.style.border = '2px black';
-    dialog.style.backgroundColor = 'white';
+    dialog.style.backgroundColor = 'rgb(230, 218, 114)';
     dialog.style.top = '200px';
     dialog.style.left = '100px';
     dialog.innerHTML = "<span  class='closeBtn' title='Close' onclick='closeDialog(event)'>+</span>";
@@ -285,9 +281,12 @@ function createDialog( contentCb )
     return bgDialog;
 }
 
+
+
         //Build Dialog Model
 function modelToremoveCoin()
 {
+
     let html;
  
     html= `
@@ -297,18 +296,24 @@ function modelToremoveCoin()
     selectedCoins.forEach( i => {
         html += `
         <br>
-        <div class='modalSelectedCoins' indexID = ${i}>
+    
+        <div class='modalSelectedCoins' indexID = ${i}>                
+            <label  class="switch">
+                    <input type="checkbox" checked  onclick="changeCoinSelection(event, '${i}')">
+                    <span class='slider round'></span>
+            </label>
             name: ${i}
-            <label class="switch">
-                <input type="checkbox" checked  onclick="changeCoinSelection(event, '${i}')">
-                <span  class='slider round'></span>
-           </label>
         </div>
+       
         `;
     })
     html +=`
+    <div id="modelBtns">
         <input onclick='okDialog(event)' id="ok" type="button" value="OK">
-        <input onclick= 'closeDialog(event)' id="cancel" type="button" value="Cancel">`;
+        <input onclick= 'closeDialog(event)' id="cancel" type="button" value="Cancel">
+    </div>
+        `;
+  
 
     return html;
 }
@@ -320,7 +325,6 @@ function okDialog( e )
     if( coinsToRemove.length === 0 )
     {
         $(`#checkboxStatus_${lastCoin}`).prop('checked' , false);
-
     }
     if(coinsToRemove.length > 0)
     {
@@ -376,8 +380,9 @@ function changeCoinSelection( event, symbol )
       //  Find Selected Coins
 function selectCoin( event , coinSymbol )
 {
-    //remember the last Coin
+    // chekDataAndWorningInCaseNoData(coinSymbol)
     
+    //remember the last Coin
     if( selectedCoins.length === allowedCoins )
     {
         let toggle = event.target;
@@ -411,6 +416,7 @@ function selectCoin( event , coinSymbol )
         document.body.appendChild( dialog );
     }
 }
+
       
                   // Add / Remove selected Coins to arry
 function addSymblToArray( symbol  )
@@ -428,8 +434,30 @@ function addSymblToArray( symbol  )
     else
     {
         selectedCoins.push( symbol );
+        chekDataAndWorningInCaseNoData(symbol)
     }
 }
+
+function chekDataAndWorningInCaseNoData(coinSymbol)
+{
+    url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=${ coinSymbol.toUpperCase() }&tsyms=USD`
+    
+    $.get(url, function(response)
+    {
+        if(response.Message === `There is no data for any of the toSymbols ${coinSymbol.toUpperCase()} .` )
+        {
+            $(".notify").addClass("active");
+            $("#notifyType").addClass("failure");
+            $('.failure').html(`FYI - there is no information for ${coinSymbol.toUpperCase()}`)
+            
+            setTimeout(function(){
+                $(".notify").removeClass("active");
+                $("#notifyType").removeClass("failure");
+            },2000);
+        }
+    })
+}
+
 
       
 window.onscroll = function() {scrollFunction()};
