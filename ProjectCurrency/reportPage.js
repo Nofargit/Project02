@@ -3,15 +3,10 @@ let dataPoints2 = [];
 let dataPoints3 = [];
 let dataPoints4 = [];
 let dataPoints5 = [];
-let nameCoinsArry = []
 let timeArry = []
 let interval;
 var chartAA; 
 
-// let arryForPrice = [];
-// let arryForCoinName = [];
-
-// ask gil :1. first ta in arryForPrice is empty , 2. how to clear canvas
 
 function creatCanvas(){
     chartAA = new CanvasJS.Chart("chartContainer", {
@@ -66,10 +61,7 @@ function creatCanvas(){
                  dataPoints: dataPoints5
              }]
     });
-
-    
 }
-
 
 
 function reportPage(){
@@ -78,18 +70,10 @@ function reportPage(){
 		return;
     }
     creatCanvas();
-    nameCoinsArry.push(4)
-
-
     $("#searchArea").hide()
 	$("#content").hide()
 	$("#aboutPage").hide()
     $("#chartContainer").show() 
-
-    // if no coin sellected -- alert balbal
-    // from coins selcted creta url 
-
-
     updateChart();
 
     interval =  setInterval(function(){updateChart()}, 2000);
@@ -97,30 +81,45 @@ function reportPage(){
 
 function updateChart(){    
     xVal = getTime();
-
-    
     //make function to create url
     url = getUrlFromSelectedCoins()
     
-    $.get(url, function(response){
+    $.get(url, function(response)
+    {
+        var setSymboleToUpperCase = selectedCoins.map(item=> item.toUpperCase());
+  
+        if(response.Message === `There is no data for any of the toSymbols ${setSymboleToUpperCase} .`  )
+        {
+            alert('No data for your chosen coins' )
+                    clearInterval(interval) ; 
+                    selectedCoins =[];
+                    return homePage()  ;     
+        }
 
-         //push to arry
+
+         //push price to arry
          currentPriceArry = checkPriceAndPush(response)
 
-        if(selectedCoins.length >= 1 && currentPriceArry[0] !=0 )
+        if(selectedCoins.length >= 1 )
         {
-          dataPoints1.push({   
-            x: xVal[0],
-            y: currentPriceArry[0]
-            });
+            if(currentPriceArry[0] !=0)
+            {
+                dataPoints1.push({   
+                  x: xVal[0],
+                  y: currentPriceArry[0]
+                  });
+            }
         }   
 
-        if(selectedCoins.length >1 && currentPriceArry[1] !=0)
+        if( selectedCoins.length > 1 && currentPriceArry[1] !=0 )
         {
-            dataPoints2.push({   
-                x: xVal[0],
-                y: currentPriceArry[1]
-            });
+           
+                dataPoints2.push({   
+                    x: xVal[0],
+                    y: currentPriceArry[1]
+                });
+            
+        
         }
         else
         {
@@ -128,30 +127,36 @@ function updateChart(){
         }
 
         
-        if(selectedCoins.length > 2 && currentPriceArry[2] !=0)
+        if( selectedCoins.length > 2 && currentPriceArry[2] !=0 )
         {
-            dataPoints3.push({   
-                x: xVal[0],
-                y: currentPriceArry[2]
-            });
+
+                dataPoints3.push({   
+                    x: xVal[0],
+                    y: currentPriceArry[2]
+                });
+
+           
         }
         else
         {
             dataPoints3 = "";
         }
 
-        if(selectedCoins.length > 3 && currentPriceArry[3] !=0)
+        if( selectedCoins.length > 3 && currentPriceArry[3] !=0 )
         {
-            dataPoints4.push({   
-                x: xVal[0],
-                y: currentPriceArry[3]
-            });
+            
+
+                dataPoints4.push({   
+                    x: xVal[0],
+                    y: currentPriceArry[3]
+                });
+            
         }
         else
         {
             dataPoints4 = "";
         }
-        if(selectedCoins.length > 4 && currentPriceArry[4] !=0)
+        if( selectedCoins.length > 4 && currentPriceArry[4] !=0 )
         {
             dataPoints5.push({   
                 x: xVal[0],
@@ -176,16 +181,6 @@ function checkPriceAndPush(response)
 {
     let currentPriceArry =[];
 
-    var setUpperCaseToSymbole = selectedCoins.map(item=> item.toUpperCase());
-  
-    if(response.Message === `There is no data for any of the toSymbols ${setUpperCaseToSymbole} .`)
-    {
-        alert('No data for your chosen coins' )
-                clearInterval(interval) ; 
-                selectedCoins =[];
-                return homePage()  ;     
-    }
-
     selectedCoins.forEach(sy => {
         let mySy = sy.toUpperCase()
                 //If choose undifuned coin
@@ -193,8 +188,8 @@ function checkPriceAndPush(response)
         if( response[mySy] === undefined)
         {
             currentPriceArry.push(0);
+            return;
         }
-
         else
         {
         currentPrice= response[mySy].USD
@@ -204,6 +199,7 @@ function checkPriceAndPush(response)
     });
     return currentPriceArry;
 }
+
 
  function getTime()
  {
