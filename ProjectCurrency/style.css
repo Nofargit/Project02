@@ -11,6 +11,11 @@
         display: block;
         background-color: #FFFFFF;
       }
+
+      .card-title
+      {
+        font-size: 20px;
+      }
       
       #myBtn {
         display: none;
@@ -57,18 +62,7 @@
         opacity: 0.8;
       } 
        
-      /* #hideDiv
-      {
-          width: 185px;
-          height: 165px;
-          margin-bottom: 15px; 
-          font-family: 'OCR A Std, monospace';
-          background-color:rgb(230, 218, 114);
-          opacity: 0.8;
-          font-weight: bold;
-        }  */
-      
-  
+
       #content
       {
           display: flex;
@@ -126,12 +120,11 @@
         background-color:rgb(230, 218, 114);
         opacity: 0.8;
         font-weight: bold;
-        margin-bottom: 20px;
+        margin-top: 20px;
         font-size: 20px;
         display: block;
       }
-      
-      
+
       
       .switch {
         position: relative;
@@ -331,7 +324,6 @@
       
       #wrapDiv 
       {
-        /* margin-left: 30px; */
         font-family: 'OCR A Std, monospace';
         text-align: justify;
       
@@ -343,7 +335,6 @@
         box-sizing: border-box; 
         color: red;
         font-size: 1.5em;
-        /* padding: 0 2px;   */
         margin-right: 3px;
         transform: rotate(45deg);
       }
@@ -381,13 +372,52 @@
         margin-top: 30px;
       }
 
-
+      *{
+  
+        font-family:Helvetica;
+        margin:0;
+        padding:0;  
+      }
+    
+      .notify{  
+        position:absolute;
+        top:0px;
+        width:100%;
+        height:0;  
+        box-sizing:border-box;
+        color:white;
+        text-align:center;
+        font-weight: bold;
+        background:rgba(0,0,0,.6);
+        overflow:hidden;
+        box-sizing:border-box;
+        transition:height .2s;
+      }
+      
+      #notifyType:before{
+        display:block;
+        margin-top:15px; 
+        
+      }
+      
+      .active{  
+        height:50px;
+      }
       
 
+      #modalToggle
+      {
+        width: 30px;
+        margin-top: 100px;
+        margin-left: 100%;
+      } 
 
+      #modelBtns
+      {
+          margin-left: 80%;
+      }
 
-
-
-
-
-      
+    .modalSelectedCoins
+    {
+      font-weight: bold;
+    }
