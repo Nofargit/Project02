@@ -17,6 +17,8 @@
         font-size: 20px;
       }
       
+
+        /* Scroll to the top of the page button */
       #myBtn {
         display: none;
         position: fixed;
@@ -49,6 +51,8 @@
         color: #f0f0f0;
         text-align: center;
         font-family: 'OCR A Std, monospace';
+        
+        
       }
       
       .generalDiv 
@@ -68,10 +72,11 @@
           display: flex;
           flex-wrap: wrap;
           margin: 30px;
-          /* color: rgb(22, 22, 22)  ; */
           color: rgb(19, 18, 18);
       }
       
+
+          /* more info button */
       .btnDiv
       {
         position: absolute;
@@ -295,7 +300,6 @@
       {
         display: none;
         padding: 30px;
-      
       }
       
       #lineChart
@@ -316,11 +320,11 @@
       }
       
       
-      #myCanvas
+      /* #myCanvas
       {
         display: block;
       
-      }
+      } */
       
       #wrapDiv 
       {
@@ -393,31 +397,35 @@
         box-sizing:border-box;
         transition:height .2s;
       }
-      
       #notifyType:before{
         display:block;
         margin-top:15px; 
         
       }
-      
       .active{  
         height:50px;
       }
       
 
-      #modalToggle
-      {
-        width: 30px;
-        margin-top: 100px;
-        margin-left: 100%;
-      } 
 
-      #modelBtns
-      {
-          margin-left: 80%;
-      }
+
 
     .modalSelectedCoins
     {
+      margin-left: 15%;
       font-weight: bold;
+    }
+
+
+    #ok
+    {
+      padding: 5px;
+      margin-left: 40%;
+      margin-top: 30px;
+    }
+
+    #cancel
+    {
+      padding: 5px;
+
     }
