@@ -210,9 +210,7 @@ function checkPriceAndPush(response)
     return timeArry;    
  }
 
- 
 
- 
 function getUrlFromSelectedCoins()
 {
     url = `https://min-api.cryptocompare.com/data/pricemulti?fsyms=` 
