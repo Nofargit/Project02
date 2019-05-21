@@ -108,13 +108,13 @@ function showData( xhr )
     });
 
        relevaneData = data;
-       relevaneData.forEach( buildDiv , i )   
+       relevaneData.forEach( buildDiv )   
       
      
 }
 
 //build My Divs function
-function buildDiv( relevaneData, i )
+function buildDiv( relevaneData )
 {
     $('#content').append(`
     <div class="generalDiv" id="generalDiv_${relevaneData.symbol}">
@@ -247,7 +247,6 @@ function saveToStorage( relevaneData )
 
         //save in storage
     localStorage.setItem( `${relevaneData.id}` ,JSON.stringify( relevaneData ))
-
 }
 
        
@@ -256,8 +255,8 @@ function createDialog( contentCb )
 {
     const dialog = document.createElement('div');
     dialog.id = 'dialog'
-    dialog.style.width = '500px';
-    dialog.style.height = '530px';
+    dialog.style.width = '600px';
+    dialog.style.height = '550px';
     dialog.style.border = '2px black';
     dialog.style.backgroundColor = 'rgb(230, 218, 114)';
     dialog.style.top = '200px';
@@ -282,13 +281,10 @@ function createDialog( contentCb )
 }
 
 
-
         //Build Dialog Model
 function modelToremoveCoin()
 {
-
     let html;
- 
     html= `
     <br><br>
     <h4>Please remove one coin in order to select ${lastCoin}</h4>
@@ -296,27 +292,24 @@ function modelToremoveCoin()
     selectedCoins.forEach( i => {
         html += `
         <br>
-    
         <div class='modalSelectedCoins' indexID = ${i}>                
             <label  class="switch">
                     <input type="checkbox" checked  onclick="changeCoinSelection(event, '${i}')">
                     <span class='slider round'></span>
             </label>
-            name: ${i}
+            name: ${i} 
+            
         </div>
-       
         `;
     })
     html +=`
-    <div id="modelBtns">
-        <input onclick='okDialog(event)' id="ok" type="button" value="OK">
-        <input onclick= 'closeDialog(event)' id="cancel" type="button" value="Cancel">
-    </div>
+        <input onclick='okDialog(event)'  id="ok" type="button" value="OK">
+        <input onclick= 'closeDialog(event)'  id="cancel" type="button" value="Cancel">
         `;
-  
-
     return html;
 }
+
+
 
 
 
@@ -385,6 +378,7 @@ function selectCoin( event , coinSymbol )
     //remember the last Coin
     if( selectedCoins.length === allowedCoins )
     {
+        chekDataAndWorningInCaseNoData(coinSymbol)
         let toggle = event.target;
         toggleDiv = $( toggle ).closest( ".generalDiv" );
         $(toggleDiv).attr( 'change' , 'change' );
@@ -448,7 +442,7 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
         {
             $(".notify").addClass("active");
             $("#notifyType").addClass("failure");
-            $('.failure').html(`FYI - there is no information for ${coinSymbol.toUpperCase()}`)
+            $('.failure').html(`F.Y.I - there is no information for ${coinSymbol.toUpperCase()}`)
             
             setTimeout(function(){
                 $(".notify").removeClass("active");
