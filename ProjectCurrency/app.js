@@ -370,18 +370,19 @@ function closeDialog( e )
 
 function changeCoinSelection( event, symbol )
 {
-    var isinclude = coinsToRemove.includes( symbol );
+    var isinclude = selectedCoins.includes( symbol );
     if ( isinclude === true )
     {
-        var index = coinsToRemove.indexOf( symbol );
+        var index = selectedCoins.indexOf( symbol );
         if ( index > -1 ) 
         {
-            coinsToRemove.splice( index, 1 );
+            selectedCoins.splice( index, 1 );
+            coinsToRemove.push( symbol );
         }   
     }
     else
     {
-        coinsToRemove.push( symbol );
+        selectedCoins.push( symbol );
     }
 }
 
@@ -389,55 +390,43 @@ function changeCoinSelection( event, symbol )
       //  Find Selected Coins
 function selectCoin( event , coinSymbol )
 {
-    // chekDataAndWorningInCaseNoData(coinSymbol)
+    
     
     //remember the last Coin
     if( selectedCoins.length === allowedCoins )
     {
-        let ifFunction = chekDataAndWorningInCaseNoData(coinSymbol)
-        console.log( chekDataAndWorningInCaseNoData(coinSymbol) )
-        console.log(ifFunction)
-
-        if(ifFunction === `${coinSymbol}`)
-        {
-            console.log("ok")
-        }
-
-
-
-
         let toggle = event.target;
         toggleDiv = $( toggle ).closest( ".generalDiv" );
         $(toggleDiv).attr( 'change' , 'change' );
         lastCoin  =  coinSymbol;
-
         
         for ( var i= 0; i< selectedCoins.length; i++ )
         {
                 if( selectedCoins[i] === lastCoin )
                 {
-                        addSymblToArray( coinSymbol );
-                        // return;
-                    }
+                    addSymblToArray( coinSymbol );
+                    return;
                 }
-                // chekDataAndWorningInCaseNoData(coinSymbol)
-                // return;
+        }    
     }
 
-    
-    if( selectedCoins.length < allowedCoins )
-    {
 
-        addSymblToArray( coinSymbol );
-        
-    }
+
+    addSymblToArray( coinSymbol );
+
+    // if( selectedCoins.length < allowedCoins )
+    // {
+
+    //     addSymblToArray( coinSymbol );
     
-    else   
-    {     
-        //create Dialog       
-        const dialog = createDialog( modelToremoveCoin );
-        document.body.appendChild( dialog );
-    }
+    // }
+
+    
+    // else   
+    // {     
+    //     const dialog = createDialog( modelToremoveCoin );
+    //     document.body.appendChild( dialog );
+    // }
 }
 
       
@@ -483,14 +472,24 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
             $(`#checkboxStatus_${coinSymbol}`).prop('checked' , false);
             $(`#checkboxStatus_${coinSymbol}`).attr('disabled','disabled');
             $(`#slider_${coinSymbol}`).css('background-color', 'red')
-    
             // addSymblToArray(coinSymbol)
-            return `${coinSymbol}`;
+            
         }
 
         else
         {
-            selectedCoins.push( coinSymbol );
+            if( selectedCoins.length < allowedCoins ){
+
+                selectedCoins.push( coinSymbol );
+
+            }
+            else{
+                const dialog = createDialog( modelToremoveCoin );
+                document.body.appendChild( dialog );
+            }
+
+
+            
         }
     })
 }
