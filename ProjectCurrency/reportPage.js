@@ -64,39 +64,36 @@ function creatCanvas(){
 }
 
 
+
+
 function reportPage(){
+
+
 	if(selectedCoins.length < 1 )
 	{
 		return;
     }
+
+    isTrue = true;
     creatCanvas();
     $("#searchArea").hide()
 	$("#content").hide()
 	$("#aboutPage").hide()
     $("#chartContainer").show() 
     updateChart();
-
     interval =  setInterval(function(){updateChart()}, 2000);
 }
 
-function updateChart(){    
+function updateChart(){ 
+
+
     xVal = getTime();
     //make function to create url
     url = getUrlFromSelectedCoins()
     
     $.get(url, function(response)
     {
-        var setSymboleToUpperCase = selectedCoins.map(item=> item.toUpperCase());
-  
-        if(response.Message === `There is no data for any of the toSymbols ${setSymboleToUpperCase} .`  )
-        {
-            alert('No data for your chosen coins' )
-                    clearInterval(interval) ; 
-                    selectedCoins =[];
-                    return homePage()  ;     
-        }
-
-
+   
          //push price to arry
          currentPriceArry = checkPriceAndPush(response)
 
@@ -170,6 +167,7 @@ function updateChart(){
         
 
             chartAA.render();
+            return;
 
 
             
@@ -229,7 +227,8 @@ function getUrlFromSelectedCoins()
 
 
 function clearData(){
-    chartAA = "";
+
+    // chartAA = "";
     dataPoints1 = [];
     dataPoints2 = [];
     dataPoints3 = [];
@@ -238,6 +237,7 @@ function clearData(){
     selectedCoins = []
     currentPriceArry=[]
     clearInterval(interval) ; 
+    return;
 
 }
 
