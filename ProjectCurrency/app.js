@@ -7,6 +7,7 @@ let selectedCoins= [];
 let coinsToRemove= [];
 const allowedCoins = 5 ;
 let lastCoin;
+let isTrue;
 
 // let div;
 
@@ -16,20 +17,35 @@ $( function ()
     $( "#home" ).ready( function ()
     {
         localStorage.clear();
+        isTrue = false
         homePage();
     });
     $( "#home" ).click( function ()
     {
         clearData();
+        isTrue = false
         homePage();
     });
-    $( "#report" ).click( function ()
+
+
+
+    $( "#report" ).click( function (event)
     {
+        if(isTrue === true)
+        {
+            return;
+        }
          reportPage();
+
+
     });
+
+
+
     $( "#about" ).click( function ()
     {
         clearData(); 
+        isTrue = false
         aboutPage();
     });
 
@@ -121,7 +137,7 @@ function buildDiv( relevaneData )
         <div class='coinName'>
             <label id="toggleBtn" class="switch">
                 <input id="checkboxStatus_${relevaneData.symbol}" type="checkbox" onclick="selectCoin(event, '${relevaneData.symbol}')">
-                <span class="slider round"></span>
+                <span id="slider_${relevaneData.symbol}" class="slider round" ></span>
             </label>
             <div class="wrapDiv">
                     <h3 class="card-title">${relevaneData.name}</h5>
@@ -378,30 +394,43 @@ function selectCoin( event , coinSymbol )
     //remember the last Coin
     if( selectedCoins.length === allowedCoins )
     {
-        chekDataAndWorningInCaseNoData(coinSymbol)
+        let ifFunction = chekDataAndWorningInCaseNoData(coinSymbol)
+        console.log( chekDataAndWorningInCaseNoData(coinSymbol) )
+        console.log(ifFunction)
+
+        if(ifFunction === `${coinSymbol}`)
+        {
+            console.log("ok")
+        }
+
+
+
+
         let toggle = event.target;
         toggleDiv = $( toggle ).closest( ".generalDiv" );
         $(toggleDiv).attr( 'change' , 'change' );
         lastCoin  =  coinSymbol;
 
+        
         for ( var i= 0; i< selectedCoins.length; i++ )
         {
-            if( selectedCoins[i] === lastCoin )
-            {
-                addSymblToArray( coinSymbol );
-                return;
-
-            }
-        }
-
+                if( selectedCoins[i] === lastCoin )
+                {
+                        addSymblToArray( coinSymbol );
+                        // return;
+                    }
+                }
+                // chekDataAndWorningInCaseNoData(coinSymbol)
+                // return;
     }
+
     
     if( selectedCoins.length < allowedCoins )
     {
+
         addSymblToArray( coinSymbol );
         
     }
-    
     
     else   
     {     
@@ -412,9 +441,11 @@ function selectCoin( event , coinSymbol )
 }
 
       
-                  // Add / Remove selected Coins to arry
+                  //addSymblToArray Add / Remove selected Coins to arry
 function addSymblToArray( symbol  )
 {
+    // chekDataAndWorningInCaseNoData(symbol)
+
     var isInclude = selectedCoins.includes( symbol );
     if ( isInclude === true )
     {
@@ -423,12 +454,12 @@ function addSymblToArray( symbol  )
         {
             selectedCoins.splice( index, 1 );
         }   
-        return;
+       
     }
     else
     {
-        selectedCoins.push( symbol );
         chekDataAndWorningInCaseNoData(symbol)
+        // selectedCoins.push( symbol );
     }
 }
 
@@ -448,6 +479,18 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
                 $(".notify").removeClass("active");
                 $("#notifyType").removeClass("failure");
             },2000);
+
+            $(`#checkboxStatus_${coinSymbol}`).prop('checked' , false);
+            $(`#checkboxStatus_${coinSymbol}`).attr('disabled','disabled');
+            $(`#slider_${coinSymbol}`).css('background-color', 'red')
+    
+            // addSymblToArray(coinSymbol)
+            return `${coinSymbol}`;
+        }
+
+        else
+        {
+            selectedCoins.push( coinSymbol );
         }
     })
 }
