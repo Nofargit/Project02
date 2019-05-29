@@ -9,8 +9,6 @@ const allowedCoins = 5 ;
 let lastCoin;
 let isTrue;
 
-// let div;
-
         //Ready Function
 $( function ()
 {
@@ -20,14 +18,13 @@ $( function ()
         isTrue = false
         homePage();
     });
+
     $( "#home" ).click( function ()
     {
         clearData();
         isTrue = false
         homePage();
     });
-
-
 
     $( "#report" ).click( function (event)
     {
@@ -36,12 +33,8 @@ $( function ()
             return;
         }
          reportPage();
-
-
     });
-
-
-
+    
     $( "#about" ).click( function ()
     {
         clearData(); 
@@ -362,7 +355,11 @@ function okDialog( e )
 function closeDialog( e ) 
 {
     $(`#checkboxStatus_${lastCoin}`).prop('checked' , false);
-    coinsToRemove = [];
+    coinsToRemove.forEach( sy =>
+        {
+            selectedCoins.push(sy)
+        } )
+        coinsToRemove = [];
     e.target.parentElement.parentElement.remove()
     return;
 }
@@ -390,8 +387,6 @@ function changeCoinSelection( event, symbol )
       //  Find Selected Coins
 function selectCoin( event , coinSymbol )
 {
-    
-    
     //remember the last Coin
     if( selectedCoins.length === allowedCoins )
     {
@@ -410,23 +405,8 @@ function selectCoin( event , coinSymbol )
         }    
     }
 
-
-
     addSymblToArray( coinSymbol );
 
-    // if( selectedCoins.length < allowedCoins )
-    // {
-
-    //     addSymblToArray( coinSymbol );
-    
-    // }
-
-    
-    // else   
-    // {     
-    //     const dialog = createDialog( modelToremoveCoin );
-    //     document.body.appendChild( dialog );
-    // }
 }
 
       
@@ -472,7 +452,6 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
             $(`#checkboxStatus_${coinSymbol}`).prop('checked' , false);
             $(`#checkboxStatus_${coinSymbol}`).attr('disabled','disabled');
             $(`#slider_${coinSymbol}`).css('background-color', 'red')
-            // addSymblToArray(coinSymbol)
             
         }
 
@@ -486,10 +465,7 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
             else{
                 const dialog = createDialog( modelToremoveCoin );
                 document.body.appendChild( dialog );
-            }
-
-
-            
+            }  
         }
     })
 }
