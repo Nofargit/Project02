@@ -9,13 +9,13 @@
             $("#content").hide()
 
                 $("#aboutPage").html(
-               ` 
+               `    <div>
                     <h3> About the Project: </h3>
                 This project includes information in live time for a variety of crypto prices. <br>
                 here you can receive any information for your relevant currency and get all your wanted coins in one live report!
-               
+                <div/>
 
-                </di>
+               
                 <br>
         
                 <h3> About me: </h3>
