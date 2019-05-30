@@ -42,8 +42,12 @@
       body
       {
         background-image: url('http://www.borsacanli.net/wp-content/uploads/2019/02/Bitcoin-haber.jpg');
-        /* background-repeat: no-repeat;
-        background-size: 100%; */
+
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+
       }
       
       h1
