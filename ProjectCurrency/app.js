@@ -104,22 +104,22 @@ function showData( xhr )
     let response = xhr.responseText;
     response.toLowerCase();
     let dataParse = JSON.parse( response ); 
+
         // FOR ALL COINS 
     //  relevaneData = dataParse       
         
     const data = dataParse.filter( data => 
     {
         i ++;
-        if ( i < 30 ) 
+        if ( i < 300 ) 
         {
             return data;
         }   	
     });
-
        relevaneData = data;
+
+
        relevaneData.forEach( buildDiv )   
-      
-     
 }
 
 //build My Divs function
@@ -193,7 +193,6 @@ function findDataFromStorage( ID )
             getInfoFromStorage( ID )
         }
     }
-    
 }
 
 function getInfoFromStorage( ID )
@@ -275,7 +274,7 @@ function createDialog( contentCb )
 
     const bgDialog = document.createElement( 'div' );
     bgDialog.style.cssText = `
-          width: 100%;;
+          width: 100%;
           height: 100%;
           top: 0;
           left: 0;
@@ -317,9 +316,6 @@ function modelToremoveCoin()
         `;
     return html;
 }
-
-
-
 
 
 function okDialog( e )
@@ -383,38 +379,17 @@ function changeCoinSelection( event, symbol )
     }
 }
 
-
       //  Find Selected Coins
 function selectCoin( event , coinSymbol )
 {
-    //remember the last Coin
-    if( selectedCoins.length === allowedCoins )
-    {
-        let toggle = event.target;
-        toggleDiv = $( toggle ).closest( ".generalDiv" );
-        $(toggleDiv).attr( 'change' , 'change' );
-        lastCoin  =  coinSymbol;
-        
-        for ( var i= 0; i< selectedCoins.length; i++ )
-        {
-                if( selectedCoins[i] === lastCoin )
-                {
-                    addSymblToArray( coinSymbol );
-                    return;
-                }
-        }    
-    }
-
-    addSymblToArray( coinSymbol );
-
+    lastCoin  =  coinSymbol;
+    addSymblToArray( lastCoin );
 }
 
       
-                  //addSymblToArray Add / Remove selected Coins to arry
+    //addSymblToArray Add / Remove selected Coins to arry
 function addSymblToArray( symbol  )
 {
-    // chekDataAndWorningInCaseNoData(symbol)
-
     var isInclude = selectedCoins.includes( symbol );
     if ( isInclude === true )
     {
@@ -423,12 +398,11 @@ function addSymblToArray( symbol  )
         {
             selectedCoins.splice( index, 1 );
         }   
-       
+    
     }
     else
     {
         chekDataAndWorningInCaseNoData(symbol)
-        // selectedCoins.push( symbol );
     }
 }
 
@@ -452,7 +426,7 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
             $(`#checkboxStatus_${coinSymbol}`).prop('checked' , false);
             $(`#checkboxStatus_${coinSymbol}`).attr('disabled','disabled');
             $(`#slider_${coinSymbol}`).css('background-color', 'red')
-            
+            return;
         }
 
         else
@@ -471,7 +445,7 @@ function chekDataAndWorningInCaseNoData(coinSymbol)
 }
 
 
-      
+
 window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() 
