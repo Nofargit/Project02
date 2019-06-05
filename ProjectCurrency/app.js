@@ -108,6 +108,8 @@ function showData( xhr )
         // FOR ALL COINS 
     //  relevaneData = dataParse       
         
+
+        //choose only few coins
     const data = dataParse.filter( data => 
     {
         i ++;
@@ -117,6 +119,8 @@ function showData( xhr )
         }   	
     });
        relevaneData = data;
+       //if you want to choose all the coins please mark this part with note and renote above part.
+
 
 
        relevaneData.forEach( buildDiv )   
@@ -280,6 +284,7 @@ function createDialog( contentCb )
           left: 0;
           background-color: rgb(0,0,0,.4);
           position: absolute;
+          position : fixed;
           display: flex;
           align-items: center ; 
           justify-content: center;
